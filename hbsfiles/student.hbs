@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        
+        #item {
+            padding-left: 20px;
+            text-align: left;
+           align-items: left;
+            align-self:baseline;
+            margin-bottom: 20px;
+        }
+
+        #head{
+            padding:20px;
+            font-size:150%;
+            color:rgb(157, 0, 255)
+        }
+
+        .plot {
+            margin:auto;
+            width: 80%;
+            margin-top: 20px;
+            background-color: rgba(226, 237, 229, 0.7);
+            text-align:center;
+            border-radius: 53px;
+            border: 6px solid rgb(20, 188, 210);
+            font-weight: 400;
+        }
+        #date{
+            font-size: 120%;
+            height:5vh;
+            width:120px;
+            border-radius: 5px;
+        }
+    input{
+        width:10%;
+    }
+        body {
+
+            background-image: url("student.jpeg");
+            {{!-- width:100%; --}}
+            height:100vh;
+            background-size:cover;
+            background-repeat: no-repeat;
+
+        }
+        {{!-- #booking_spe{
+            display: none;
+        } --}}
+        #booking{
+            display: none;
+        }
+        #book_opt{
+            padding:4px;
+            color: blue;
+            width:fit-content;
+            height:fit-content;
+            font-size: medium;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+
+    {{>headingin}}
+    
+
+    <div class="plot">
+        <h3 id="head">Find your EV ride here</h3>
+            {{#each str as |value key|}}
+            <div id="item">
+                <li style="font-weight:500;">{{key}}.   {{value}}</li>
+                {{!-- <button>book</button>
+                {{>booking_spe}} --}}
+            </div>
+            {{/each}}
+            {{!-- {{>booking_spe}} --}}
+            <button id="book_opt" onclick="open_close()">Book ticket</button>
+            {{>booking}}
+    </div>
+
+    <script>
+        t=0
+        document.getElementById("booking").style.display="none"
+        function open_close(){
+           if(t%2==1) document.getElementById("booking").style.display="none"
+           else document.getElementById("booking").style.display="block"
+            t+=1
+        }
+{{!-- var b={{{str}}}
+        alert(b) --}}
+    </script>
+</body>
+
+</html>

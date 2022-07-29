@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signin</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        #heading {
+            align: center;
+            font-family: Arial, Helvetica, sans-serif;
+
+                {
+                    {
+                     !-- margin-left: 42%;
+                    --
+                }
+            }
+
+            color:rgb(218, 80, 11);
+            font-size:75px;
+
+        }
+
+        #signin {
+            align-items: center;
+            align-self: center;
+            align-content: center;
+            left: 170px;
+            border-radius: 20px;
+            position: relative;
+            align-tracks: center;
+            top: 10%;
+            font-size: 30px;
+            border: 3px solid rgb(228, 108, 204);
+            padding: 10px;
+            /* padding:20px; */
+            flex-direction: row;
+
+                {
+                    {
+                     !-- height: 270px;
+                    --
+                }
+            }
+
+            background-color:rgb(255 255 255 / 60%);
+
+        }
+
+        a {
+            text-size-adjust: 20px;
+            font-size: 20px;
+        }
+
+        #login {
+
+            align-items: center;
+            align-self: center;
+            align-content: center;
+            position: relative;
+
+            text-align: right;
+            display: flex;
+            padding: 5px;
+            margin-top: 70px;
+
+        }
+
+        body {
+            background-image: url("signin.jpeg");
+        }
+
+        #Input {
+            height: 50px;
+        }
+
+        #tologin {
+            text-align: left;
+        }
+
+        .head {
+            align-items: center;
+            align-self: center;
+            align-content: center;
+            font-size: 50px;
+            display: inline-block;
+            text-align: left;
+            display: block;
+
+                {
+                    {
+                     !-- margin-left: 103px;
+                    --
+                }
+            }
+
+            color: black;
+        }
+        #radio{
+            font-size: small;
+            color: azure;
+        }
+
+        img {
+            position: absolute;
+            z-index: -1;
+            top: 0;
+            width: 100vw;
+            height: 100vh;
+        }
+    </style>
+
+</head>
+
+<body>
+    {{>headingout}}
+    <div id="heading">
+        <p>TrakEV</p>
+    </div>
+
+    <div id="login">
+        <div id="signin">
+            <div class="head"><b style="font-family: Roboto, serif; color:rgb(239 14 64 / 70%);">Sign In</b></div>
+            <form action="/signin" method="POST">
+                <div class="Input">
+                    <label for="email_mobno">Email or Phone</label>
+                    <input type="text"  id="email_mobno" onfocus="chan_1()" name="email_mobno" required
+                        style="border: 2px solid black;  ;" placeholder=" IITH Email Id"><br>
+                </div>
+                <div class="Input">
+                    <label for="pwc">Password</label>
+                    <input type="password"  id="pwc"  name="pwc" onfocus="chan_2()" placeholder="Password" required
+                        style="border: 2px solid black;"><br>
+                </div >
+                
+                <div id="radio">
+                    <input type="radio" name="dvr_stu" value="driver">Driver <br>
+                    <input type="radio" name="dvr_stu" value="student" required>Student
+                </div>
+                <div id="tologin">
+                    <a href="/signup.hbs">Haven't you sign up yet?</a>
+                </div>
+                <div class="Input">
+                    <input type="submit" value="Continue" style="text-align:center;" id="sub">
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        {{!-- function chan_2(){
+            addEventListener(document.getElementById("pwc").focus && "keypress", function(event) {
+                if(event.keyCode == 13) {
+                    event.preventDefault();
+                    document.getElementById("sub").click()
+                }
+            })
+        }
+
+        function chan_1(){
+            addEventListener(document.getElementById("email_mobno").focus && "keypress", function(event) {
+                if(event.keyCode == 13) {
+                    event.preventDefault();
+                    document.getElementById("pwc").focus()
+                }
+            })
+        } --}}
+    </script>
+
