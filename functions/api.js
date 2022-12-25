@@ -1,4 +1,5 @@
 const express = require("express")
+const serverless =require('serverless-http')
 const mongoose = require("mongoose")
 const path = require("path")
 const jwt = require("jsonwebtoken")
@@ -6,26 +7,28 @@ const hbs = require("hbs")
 const bcrypt = require("bcrypt")
 const copar = require("cookie-parser")
 
-require("./db")
+require("../db")
 
 const app = express();
 const port = process.env.PORT || 3008;
 
-const Signin = require("./data_user.js")
-const Booking = require("./data_.js")
-const Ticket = require("./data_ticket.js")
+const router=express.Router();
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, "/hbsfiles/public")));
+const Signin = require("../data_user.js")
+const Booking = require("../data_.js")
+const Ticket = require("../data_ticket.js")
 
-app.use(copar());
+router.use(express.json());
+router.use(express.urlencoded({ extended: false }));
+router.use(express.static(path.join(__dirname, "/../dist/public")));
 
-hbs.registerPartials(path.join(__dirname, "hbsfiles/partials"))
+router.use(copar());
+
+hbs.registerPartials(path.join(__dirname, "/../dist/partials"))
 app.set("view engine", "hbs");
-app.set("views", path.join(__dirname, 'hbsfiles'))
+app.set("views", path.join(__dirname, '../dist'))
 
-app.get("/index", (req, res) => {
+router.get("/index", (req, res) => {
     res.render("index");
 });
 
@@ -43,7 +46,6 @@ const middle= async (req,res,next)=>{
             str[i] = list[i].ev_name + ":" + list[i].status + ' at ' + list[i].time
         ev[i] = list[i].ev_name
     }
-    console.log("hel")
     len = usr.tokens.length
     l = 0
     for (let i = 0; i < len; i++) {
@@ -68,21 +70,21 @@ const middle= async (req,res,next)=>{
     }
 
 
-app.get("/", middle,async (req, res) => {
+router.get("/", middle,async (req, res) => {
     console.log("hel")
     
 
 
 })
 
-app.get("/driver.hbs", (req, res) => {
+router.get("/driver.hbs", (req, res) => {
     res.render("driver");
 });
-app.get("/signup.hbs", (req, res) => {
+router.get("/signup.hbs", (req, res) => {
     res.render("signup");
 });
 
-app.get("/logout.hbs", async (req, res) => {
+router.get("/logout.hbs", async (req, res) => {
     const ver = jwt.verify(req.cookies.trakev, "himanshukumarguptaiswritingthiscodeforjwt")
     usr = await Signin.findOne({ email: ver.email })
     len = usr.tokens.length
@@ -103,7 +105,7 @@ app.get("/logout.hbs", async (req, res) => {
     res.render("index")
 
 })
-app.get("/logout_all.hbs", async (req, res) => {
+router.get("/logout_all.hbs", async (req, res) => {
     const ver = jwt.verify(req.cookies.trakev, "himanshukumarguptaiswritingthiscodeforjwt")
     usr = await Signin.updateOne({ email: ver.email },{
         $unset:{
@@ -116,7 +118,7 @@ app.get("/logout_all.hbs", async (req, res) => {
 //     res.render("booking");
 // });
 
-app.post("/signup", async (req, res) => {
+router.post("/signup", async (req, res) => {
     try {
         const pw = req.body.pw;
         const re_pw = req.body.re_pw;
@@ -180,7 +182,7 @@ app.post("/signup", async (req, res) => {
 
 
 })
-app.post("/signin", async (req, res) => {
+router.post("/signin", async (req, res) => {
     try {
         console.log(isNaN(req.body.email_mobno))
 
@@ -279,7 +281,7 @@ app.post("/signin", async (req, res) => {
     }
 })
 
-app.post("/update", async (req, res) => {
+router.post("/update", async (req, res) => {
     try {
         const updatedoc = async (_id) => {
             try {
@@ -309,7 +311,7 @@ app.post("/update", async (req, res) => {
     }
 })
 
-app.post("/book", async (req, res) => {
+router.post("/book", async (req, res) => {
     try {
 
         // const book_dvr = await Signin.updateOne({ ev_name: req.body.ev_name }, {
@@ -367,4 +369,7 @@ app.post("/book", async (req, res) => {
     }
 })
 
-app.listen(port, () => { console.log("server is running at port no", port); })
+// app.listen(port, () => { console.log("server is running at port no", port); })
+
+app.use('/',router);
+module.exports.handler=serverless(app)
